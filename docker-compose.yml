@@ -1,0 +1,20 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.6
+    container_name: go-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: sampledb
+      MYSQL_ROOT_PASSWORD: password
+  server:
+    build: .
+    command: tail -f /dev/null
+    container_name: go-server
+    volumes:
+      - .:/go/src/app
+    ports:
+      - "8080:8080"
+    links:
+      - db
